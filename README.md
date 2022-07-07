@@ -6,52 +6,52 @@ Bring Vue SPA to Android app.
 
 1. Vue app
 
-	```
-	app/src/main/assets/
-	```
-	
+   ```
+   app/src/main/assets/
+   ```
+
 2. Title
 
-	```
-	app/src/main/res/values/strings.xml
-	```
-	
+   ```
+   app/src/main/res/values/strings.xml
+   ```
+
 3. Admob banner `(test: ca-app-pub-3940256099942544/6300978111)`
 
-	```
-	app/src/main/res/layout/activity_main.xml
-	```
+   ```
+   app/src/main/res/layout/activity_main.xml
+   ```
 
 4. Admob application id `(test: ca-app-pub-3940256099942544~3347511713)`
 
-	```
-	app/src/main/AndroidManifest.xml
-	```
+   ```
+   app/src/main/AndroidManifest.xml
+   ```
 
-4. Start.io Ads
+5. Start.io Ads
 
-	```
-	app/src/main/AndroidManifest.xml
-	app/src/main/java/com/user/app/MainActivity.java
-	```
-	
-5. Version
+   ```
+   app/src/main/AndroidManifest.xml
+   app/src/main/java/com/user/app/MainActivity.java
+   ```
 
-	```
-	app/build.gradle
-	```
-	
-6. Package id
+6. Version
 
-	```
-	app/build.gradle
-	app/src/main/AndroidManifest.xml
-	app/src/main/java/com/user/app/
-	app/src/main/java/com/user/app/MainActivity.java
-	```
-	
-7. Keystore
-8. Logo
+   ```
+   app/build.gradle
+   ```
+
+7. Package id
+
+   ```
+   app/build.gradle
+   app/src/main/AndroidManifest.xml
+   app/src/main/java/com/user/app/
+   app/src/main/java/com/user/app/MainActivity.java
+   ```
+
+8. Keystore
+9. Logo
 
 ## Before Build in Android Studio
 
