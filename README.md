@@ -56,3 +56,7 @@ Bring Vue SPA to Android app.
 ## Before Build in Android Studio
 
 Delete `node_modules`
+
+## Discord
+
+https://s.id/discordzen
