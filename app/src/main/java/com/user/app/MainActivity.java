@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         StartAppSDK.init(this, "204848974", false);
+        StartAppSDK.enableReturnAds(false);
         StartAppAd.disableSplash();
 
         RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
