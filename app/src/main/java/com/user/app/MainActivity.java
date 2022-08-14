@@ -8,7 +8,9 @@ import android.view.KeyEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.WebChromeClient;
 import androidx.appcompat.app.AppCompatActivity;
+import android.webkit.ValueCallback;
 
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewAssetLoader.AssetsPathHandler;
@@ -31,6 +33,10 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.LoadAdError;
 
 public class MainActivity extends AppCompatActivity {
+    // variables para manejar la subida de archivos
+    private final static int FILECHOOSER_RESULTCODE = 1;
+    private ValueCallback<Uri[]> mUploadMessage;
+
     private AdView mAdView;
 
     @Override
@@ -129,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
           
         });
 
+        // establecemos el cliente chrome para seleccionar archivos
+        webview.setWebChromeClient(new MyWebChromeClient());
+
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDatabaseEnabled(true);
@@ -141,6 +150,28 @@ public class MainActivity extends AppCompatActivity {
             webview.loadUrl("https://appassets.androidplatform.net/assets/index.html");
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        // manejo de seleccion de archivo
+        if (requestCode == FILECHOOSER_RESULTCODE) {
+
+            if (null == mUploadMessage || intent == null || resultCode != RESULT_OK) {
+                return;
+            }
+
+            Uri[] result = null;
+            String dataString = intent.getDataString();
+
+            if (dataString != null) {
+                result = new Uri[]{ Uri.parse(dataString) };
+            }
+
+            mUploadMessage.onReceiveValue(result);
+            mUploadMessage = null;
+        }
     }
 
     @Override
@@ -178,6 +209,32 @@ public class MainActivity extends AppCompatActivity {
 
         super.onRestoreInstanceState(savedInstanceState);
         webview.restoreState(savedInstanceState);
+    }
+
+    /**
+     * Clase para configurar el chrome client para que nos permita seleccionar archivos
+     */
+    private class MyWebChromeClient extends WebChromeClient {
+
+        // maneja la accion de seleccionar archivos
+        @Override
+        public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+
+            // asegurar que no existan callbacks
+            if (mUploadMessage != null) {
+                mUploadMessage.onReceiveValue(null);
+            }
+
+            mUploadMessage = filePathCallback;
+
+            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.addCategory(Intent.CATEGORY_OPENABLE);
+            i.setType("*/*"); // set MIME type to filter
+
+            MainActivity.this.startActivityForResult(Intent.createChooser(i, "File Chooser"), MainActivity.FILECHOOSER_RESULTCODE );
+
+            return true;
+        }
     }
 
 
