@@ -23,9 +23,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 import android.widget.RelativeLayout;
-import com.startapp.sdk.ads.banner.Banner;
-import com.startapp.sdk.adsbase.StartAppAd;
-import com.startapp.sdk.adsbase.StartAppSDK;
 import android.view.View;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -43,13 +40,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        StartAppSDK.init(this, "204848974", false);
-        StartAppSDK.enableReturnAds(false);
-        StartAppAd.disableSplash();
-
-        RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
-        mainLayout.setVisibility(View.GONE);
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -70,19 +60,6 @@ public class MainActivity extends AppCompatActivity {
             public void onAdFailedToLoad(LoadAdError adError) {
                 // Code to be executed when an ad request fails.
                 mAdView.setVisibility(View.GONE);
-                mainLayout.setVisibility(View.VISIBLE);
-                // Get the Main relative layout of the entire activity
-                // RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
-                // Define StartApp Banner
-                Banner startAppBanner = new Banner(MainActivity.this);
-                RelativeLayout.LayoutParams bannerParameters =
-                            new RelativeLayout.LayoutParams(
-                                        RelativeLayout.LayoutParams.WRAP_CONTENT,
-                                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-                bannerParameters.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                bannerParameters.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);    
-                // Add to main Layout
-                mainLayout.addView(startAppBanner, bannerParameters);
             }
 
             @Override

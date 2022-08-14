@@ -28,7 +28,7 @@ Bring Vue SPA to Android app.
    app/src/main/AndroidManifest.xml
    ```
 
-5. Start.io Ads
+5. Start.io Ads (dimatikan)
 
    ```
    app/src/main/AndroidManifest.xml
