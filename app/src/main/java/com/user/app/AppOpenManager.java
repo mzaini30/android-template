@@ -2,6 +2,9 @@ package com.user.app;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -22,6 +25,7 @@ public class AppOpenManager  implements LifecycleObserver, Application.ActivityL
 
     private static final String LOG_TAG = "AppOpenManager";
     private static String AD_UNIT_ID;
+    private static String ORIENTASI;
     private AppOpenAd appOpenAd = null;
     private static boolean isShowingAds = false;
 
@@ -31,8 +35,9 @@ public class AppOpenManager  implements LifecycleObserver, Application.ActivityL
 
     private Activity currentActivity;
 
-    public AppOpenManager(Application myApplication, String adId) {
+    public AppOpenManager(Application myApplication, String adId, String orientasi) {
         AD_UNIT_ID = adId;
+        ORIENTASI = orientasi;
         this.myApplication = myApplication;
         this.myApplication.registerActivityLifecycleCallbacks(this);
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
@@ -65,9 +70,17 @@ public class AppOpenManager  implements LifecycleObserver, Application.ActivityL
             }
         };
         AdRequest adRequest = getAdRequest();
-        AppOpenAd.load(myApplication,
+
+        if (ORIENTASI == "portrait"){
+            AppOpenAd.load(myApplication,
                 AD_UNIT_ID, adRequest,
                 AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT, loadCallback);
+        } else {
+            AppOpenAd.load(myApplication,
+                AD_UNIT_ID, adRequest,
+                AppOpenAd.APP_OPEN_AD_ORIENTATION_LANDSCAPE, loadCallback);
+        }
+
 
     }
 
