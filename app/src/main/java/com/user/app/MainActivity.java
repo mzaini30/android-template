@@ -46,7 +46,12 @@ public class MainActivity extends AppCompatActivity {
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        new AppOpenManager(this.getApplication(), "ca-app-pub-3940256099942544/3419835294");
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            new AppOpenManager(this.getApplication(), "ca-app-pub-3940256099942544/3419835294", "portrait");
+        } else  {
+            new AppOpenManager(this.getApplication(), "ca-app-pub-3940256099942544/3419835294", "landscape");
+        }
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
