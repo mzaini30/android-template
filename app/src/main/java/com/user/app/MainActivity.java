@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
         // establecemos el cliente chrome para seleccionar archivos
         webview.setWebChromeClient(new MyWebChromeClient());
+        webview.addJavascriptInterface(new JavaScriptInterface(this), "Andro");
 
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
