@@ -70,26 +70,7 @@ public class MainActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        // rewarded ads
-//        AdRequest adRequest = new AdRequest.Builder().build();
-        // RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917",
-        //     adRequest, new RewardedAdLoadCallback() {
-        //         @Override
-        //         public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-        //             // Handle the error.
-        //             Log.d(TAG, loadAdError.toString());
-        //             // Toast.makeText(context, loadAdError.toString(), Toast.LENGTH_SHORT).show();
-        //             rewardedAd = null;
-        //         }
-
-        //         @Override
-        //         public void onAdLoaded(@NonNull RewardedAd ad) {
-        //             rewardedAd = ad;
-        //             Log.d(TAG, "Ad was loaded.");
-        //             // Toast.makeText(context, "Ad was loaded.", Toast.LENGTH_SHORT).show();
-        //         }
-        //     }
-        // );
+        
 
         
         mAdView.setAdListener(new AdListener() {
