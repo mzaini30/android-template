@@ -104,7 +104,7 @@ public class JavaScriptInterface {
                     });
                 } else {
                     Log.d(TAG, "The rewarded ad wasn't ready yet.");
-                    Toast.makeText(context, "The rewarded ad wasn't ready yet.", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(context, "The rewarded ad wasn't ready yet.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
