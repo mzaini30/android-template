@@ -1,15 +1,20 @@
 package com.user.app;
 
+import android.app.Activity;
 import android.content.Intent;
+
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.content.Context;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebChromeClient;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.webkit.ValueCallback;
 
@@ -25,17 +30,25 @@ import com.google.android.gms.ads.MobileAds;
 
 import android.widget.RelativeLayout;
 import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 public class MainActivity extends AppCompatActivity {
     // variables para manejar la subida de archivos
     private final static int FILECHOOSER_RESULTCODE = 1;
     private ValueCallback<Uri[]> mUploadMessage;
-
+    private RewardedAd rewardedAd;
+    private final String TAG = "MainActivity";
     private AdView mAdView;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +70,28 @@ public class MainActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
+        // rewarded ads
+//        AdRequest adRequest = new AdRequest.Builder().build();
+        // RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917",
+        //     adRequest, new RewardedAdLoadCallback() {
+        //         @Override
+        //         public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+        //             // Handle the error.
+        //             Log.d(TAG, loadAdError.toString());
+        //             // Toast.makeText(context, loadAdError.toString(), Toast.LENGTH_SHORT).show();
+        //             rewardedAd = null;
+        //         }
+
+        //         @Override
+        //         public void onAdLoaded(@NonNull RewardedAd ad) {
+        //             rewardedAd = ad;
+        //             Log.d(TAG, "Ad was loaded.");
+        //             // Toast.makeText(context, "Ad was loaded.", Toast.LENGTH_SHORT).show();
+        //         }
+        //     }
+        // );
+
+        
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
@@ -121,7 +156,29 @@ public class MainActivity extends AppCompatActivity {
 
         // establecemos el cliente chrome para seleccionar archivos
         webview.setWebChromeClient(new MyWebChromeClient());
-        webview.addJavascriptInterface(new JavaScriptInterface(this), "Andro");
+
+        // Setelah iklan berhasil dimuat
+        JavaScriptInterface jsInterface = new JavaScriptInterface(this);
+
+       RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917",
+       new AdRequest.Builder().build(), new RewardedAdLoadCallback() {
+           @Override
+           public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+               // Handle the error.
+               Log.d(TAG, loadAdError.toString());
+               rewardedAd = null;
+               jsInterface.setRewardedAd(rewardedAd);
+           }
+
+           @Override
+           public void onAdLoaded(@NonNull RewardedAd ad) {
+               rewardedAd = ad;
+               jsInterface.setRewardedAd(rewardedAd);
+               Log.d(TAG, "Ad was loaded.");
+           }
+       });
+
+        webview.addJavascriptInterface(jsInterface, "Andro");
 
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
